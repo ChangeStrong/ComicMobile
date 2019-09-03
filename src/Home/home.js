@@ -3,6 +3,7 @@ import Dimen from  './../../Tools/dimission'
 import Banner from './../Common/Banner';
 import ProductDetail from './ProductDetail/ProductDetail';
 import {HomeProductList} from './homeProductList'
+import LayoutTool, {STATUSBAR_HEIGHT} from './../../Tools/Layout';
 
 let scale = Dimen.scaleW;
 
@@ -43,9 +44,11 @@ export class HomeView extends Component{
 
     _onPressBannerItem(index){
         console.log(index);
-        this.setState({
-            currentViewType: viewTypes.productDetail,
-        })
+        // this.setState({
+        //     currentViewType: viewTypes.productDetail,
+        // })
+        //跳转作品详情页
+        this.props.navigation.navigate('HomeProductDetailVC',{productId:0})
     }
 
     render(){
@@ -95,6 +98,7 @@ export class HomeView extends Component{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        marginTop:STATUSBAR_HEIGHT,
     },
   titleBgView:{
       backgroundColor:'white',

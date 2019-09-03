@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     },
     cellImg: {
         width: Dimen.window.width/2.0-10,
-        height: Dimen.window.width/2.0-10,
+        height: (Dimen.window.width/2.0-10)*(56.0/42.0),
         borderRadius: 10.0,
     },
     cellTitleItem:{

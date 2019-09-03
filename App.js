@@ -17,6 +17,7 @@ import {
   View,
   Text,
   StatusBar,
+  Image
 } from 'react-native';
 
 import {
@@ -37,9 +38,16 @@ import Mine from './src/Mine/Mine';
 const HomeStack = createStackNavigator({
   HomeNavVC:{
     screen:HomeView,
+    navigationOptions:({navigation}) => ({
+      header:null,
+    })
   },
+  HomeProductDetailVC:{
+    screen:ProductDetail,
+  }
 },{
   initialRouteName: "HomeNavVC",
+  headerMode: 'float',
   defaultNavigationOptions:({navigation}) =>({
     headerTintColor: '#F2D3AB',//标题文字颜色
   }),
@@ -63,8 +71,15 @@ const MineStack = createStackNavigator({
 });
 
 const TabNavigator = createBottomTabNavigator({
-      HomePage:HomeStack,
-      MinePage:MineStack,
+      HomePage:{
+        screen:HomeStack,
+        navigationOptions:()=>sTabBarOptions('首页', require("./images/tabBar/nav1.png"), require("./images/tabBar/icon_tabBarHomeSelect.png"))
+      },
+      MinePage:{
+        screen:MineStack,
+        navigationOptions:()=>sTabBarOptions('我的', require("./images/tabBar/nav3.png"), require("./images/tabBar/icon_tabBarMineSelect.png"))
+      },
+
     },{
       defaultNavigationOptions: ({ navigation}) => ({
         tabBarOptions: {
@@ -87,17 +102,6 @@ const TabNavigator = createBottomTabNavigator({
 
 
 export default createAppContainer(TabNavigator);
-
-// const App = TabNavigator({
-//   HomePage:{screen: HomeNavigator},
-//   MinePage:{screen: Mine},
-// });
-
-// const App = () => {
-// 	console.log('进入app了');
-//   return (<HomeView></HomeView>
-//   );
-// };
 
 
 const sTabBarOptions = (tabBarItemTitle, tabBarItemDef, tabBarItemSel) =>{
