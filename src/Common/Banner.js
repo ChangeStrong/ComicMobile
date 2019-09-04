@@ -34,7 +34,7 @@ export default class Banner extends Component{
                         {
                             this.state.items.map((item,index)=>{
                              return (<View key={index} style={styles.bannerItemBg}>
-                                 <TouchableOpacity onPress={() =>this.props.onPressItem(index)}>
+                                 <TouchableOpacity onPress={() =>this.props.onPressItem(item)}>
                                  <Image style={{height: H, width:Dimen.window.width, backgroundColor:'green'}}
                                         key = {0} resizeMode='cover' source={{uri: item.thumUrl}}/>
                                  </TouchableOpacity>

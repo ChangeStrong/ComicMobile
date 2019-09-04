@@ -42,13 +42,14 @@ export class HomeView extends Component{
         })
     }
 
-    _onPressBannerItem(index){
-        console.log(index);
+    _onPressBannerItem(item){
+        console.log(item);
+        console.log(item.id);
         // this.setState({
         //     currentViewType: viewTypes.productDetail,
         // })
         //跳转作品详情页
-        this.props.navigation.navigate('HomeProductDetailVC',{productId:0})
+        this.props.navigation.navigate('HomeProductDetailVC',{productId:item.id})
     }
 
     render(){
