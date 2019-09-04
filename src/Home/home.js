@@ -12,7 +12,7 @@ import {StyleSheet,
     View,
     Button,
     Image,
-    Alert,
+    Alert,ScrollView,
 TouchableOpacity} from 'react-native'
 import {NavigationActions} from 'react-navigation'
 
@@ -69,14 +69,18 @@ export class HomeView extends Component{
        )
         if (this.state.currentViewType === viewTypes.home){
             return(
+
                 <View style={styles.container}>
                     <View style={styles.titleBgView}>
                         {titlesViews}
                     </View>
+                    <ScrollView>
                     <Banner onPressItem={this._onPressBannerItem}>
                     </Banner>
                     <HomeProductList></HomeProductList>
+                    </ScrollView>
                 </View>
+
             )
         }else if (this.state.currentViewType === viewTypes.productDetail){
           return (
