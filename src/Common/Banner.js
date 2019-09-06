@@ -16,11 +16,6 @@ export default class Banner extends Component{
         }
     }
 
-    _onPressBannerItem(index){
-        console.log('点击了Banner2按钮'+index);
-        // this.props.onPressItem(index);
-    }
-
     render() {
         let H = 200;
         if (this.state.isShow) {

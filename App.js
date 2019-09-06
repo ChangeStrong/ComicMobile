@@ -9,6 +9,7 @@
 import React, {Fragment} from 'react';
 import {HomeView} from './src/Home/home'
 import ProductDetail from './src/Home/ProductDetail/ProductDetail';
+import ProductLook from './src/Home/ProductLook/ProductLook';
 import LayoutTool from "./Tools/Layout"
 import {
   SafeAreaView,
@@ -44,6 +45,9 @@ const HomeStack = createStackNavigator({
   },
   HomeProductDetailVC:{
     screen:ProductDetail,
+  },
+  ProductLookVc:{
+    screen:ProductLook,
   }
 },{
   initialRouteName: "HomeNavVC",

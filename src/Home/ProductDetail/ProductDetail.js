@@ -17,13 +17,17 @@ class ChapterCell extends Component{
     constructor(props){
         super(props)
     }
+
     render() {
-        var model = this.props.itemModel;
+        var item = this.props.itemModel;
         // console.log(model);
         return (
+            <TouchableOpacity onPress={() =>{this.props.clickItem(item)}}>
             <View style={styles.chapterItemBg}>
-            <Text style={styles.chapterItem}>{model.name}</Text>
-        </View>);
+            <Text style={styles.chapterItem}>{item.name}</Text>
+        </View>
+            </TouchableOpacity>);
+
     }
 }
 
@@ -39,14 +43,34 @@ export default class ProductDetail extends Component<Props>{
             chapters:[],
             productInfo:{name:'',desciption:'',author:''},
         }
+        this._clickItem = this._clickItem.bind(this);
+    }
+
+    _clickItem(item){
+        console.log(item);
+        const {navigation} = this.props;
+        const productId =  navigation.getParam('productId','');
+        item.productId = productId;
+        //跳转观看界面
+         this.props.navigation.navigate('ProductLookVc',{chapterItem:item});
     }
 
     _statReadProduct(){
         console.log('start read product.')
+        if (this.state.chapters.length <= 0){
+            Alert.alert('提示','没有可读章节');
+            return;
+        }
+        let firstChapter = this.state.chapters[0];
+        const {navigation} = this.props;
+        const productId =  navigation.getParam('productId','');
+        firstChapter.productId = productId;
+        //跳转观看界面
+        this.props.navigation.navigate('ProductLookVc',{chapterItem:firstChapter});
     }
     //此处关键字必须是item
     _ChapterCellItem = ({item}) => (
-        <ChapterCell itemModel={item}></ChapterCell>
+        <ChapterCell itemModel={item} clickItem={this._clickItem}></ChapterCell>
     )
 
     render(){
@@ -59,7 +83,7 @@ export default class ProductDetail extends Component<Props>{
                     <View style={styles.headerRightBg}>
                     <Text style={styles.productName}>{this.state.productInfo.name}</Text>
                     <Text style={styles.authorName}>作者:{this.state.productInfo.author}</Text>
-                    <Text style={styles.authorName}>{this.state.productInfo.desciption}</Text>
+                    <Text style={styles.descripton}>{this.state.productInfo.desciption}</Text>
                     </View>
                 </View>
                 <TouchableOpacity onPress={() => {this._statReadProduct()}}>
@@ -68,7 +92,7 @@ export default class ProductDetail extends Component<Props>{
                 <View style={styles.bottomBgView}>
                     <FlatList style='styles.flatList'
                               data={this.state.chapters}
-                              renderItem={this._ChapterCellItem} 
+                              renderItem={this._ChapterCellItem}
                               keyExtractor={(item, index) => index.toString()} />
                 </View>
              </ScrollView>
@@ -87,7 +111,7 @@ export default class ProductDetail extends Component<Props>{
             console.log(response);
             if (response.code === 0){
                 //更新界面
-                 console.log(response.data.list);
+                //  console.log(response.data.list);
                 this.setState({
                     chapters:response.data.list,
                 })
@@ -115,7 +139,7 @@ export default class ProductDetail extends Component<Props>{
 
         //请求章节列表信息
         this._getChapterListData(productId);
-       
+
     }
 }
 
@@ -148,6 +172,9 @@ const styles = StyleSheet.create({
     },
     authorName:{
         marginTop:10,
+    },
+    descripton:{
+      marginLeft:5,
     },
     startReadButton:{
         backgroundColor:'#F8D3AB',
