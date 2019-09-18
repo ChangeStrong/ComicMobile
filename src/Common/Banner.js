@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import {AppRegistry, Image, View, Dimensions, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {POST} from '../../Tools/HttpUtil';
 import * as HttpConfig from '../../Tools/HttpConfig';
+import ImageView from './ImageView';
 
 let scale = Dimen.scaleW;
 const {ScreenWidth, ScreenHeight} = Dimensions.get('window');
@@ -32,6 +33,7 @@ export default class Banner extends Component{
                                  <TouchableOpacity onPress={() =>this.props.onPressItem(item)}>
                                  <Image style={{height: H, width:Dimen.window.width, backgroundColor:'green'}}
                                         key = {0} resizeMode='cover' source={{uri: item.thumUrl}}/>
+
                                  </TouchableOpacity>
                              </View>)
                             })
@@ -57,7 +59,7 @@ export default class Banner extends Component{
             console.log(response);
             if (response.code === 0){
                 // console.log(response);
-        console.log(response.data.list);
+                console.log(response.data.list);
                 //更新界面
                 this.setState({
                     isShow: true,
@@ -73,7 +75,8 @@ export default class Banner extends Component{
 const styles = StyleSheet.create({
     banner: {
         width: Dimen.window.width,
-        height:220, backgroundColor: 'red'},
+        height:220,
+        },
     bannerItemBg:{
         width: Dimen.window.width,
         height: 220,

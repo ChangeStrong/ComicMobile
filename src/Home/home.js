@@ -4,6 +4,7 @@ import Banner from './../Common/Banner';
 import ProductDetail from './ProductDetail/ProductDetail';
 import {HomeProductList} from './homeProductList'
 import LayoutTool, {STATUSBAR_HEIGHT} from './../../Tools/Layout';
+import PTRControl from 'react-native-ptr-control';
 
 let scale = Dimen.scaleW;
 
@@ -20,7 +21,7 @@ var viewTypes = {
     home:0,
     productDetail:1,
 }
-
+var listObjet = null;
 export class HomeView extends Component{
     static navigationOptions = {
         title:'主页'
@@ -31,8 +32,10 @@ export class HomeView extends Component{
         this.state = {
             currentViewType: viewTypes.home,
             currentTitleIndex:0,
+            refreshing: false,
         };
         this._onPressBannerItem = this._onPressBannerItem.bind(this);
+        this.headRefreshDon = this.headRefreshDon.bind(this);
     }
 
     _onPressButton(index){
@@ -50,6 +53,10 @@ export class HomeView extends Component{
         // })
         //跳转作品详情页
         this.props.navigation.navigate('HomeProductDetailVC',{productId:item.id})
+    }
+
+    headRefreshDon(){
+        PTRControl.headerRefreshDone()
     }
 
     render(){
@@ -71,15 +78,39 @@ export class HomeView extends Component{
         if (this.state.currentViewType === viewTypes.home){
             return(
 
-                <View style={styles.container}>
+                <View style={styles.container} >
+
                     <View style={styles.titleBgView}>
                         {titlesViews}
                     </View>
-                    <ScrollView>
+                    <PTRControl
+                        //here is the origin props of ScrollView
+                        style={{flex: 1}}
+                        showsVerticalScrollIndicator={false}
+                        //here is the props of lib provide
+                        scrollComponent={'ScrollView'}
+                        enableFooterInfinite={false}
+                        onHeaderRefreshing={()=>{
+                            console.log('下拉刷新中..');
+                            //请求数据
+                            listObjet.getData();
+                        }}
+                    >
                     <Banner onPressItem={this._onPressBannerItem}>
                     </Banner>
-                    <HomeProductList></HomeProductList>
-                    </ScrollView>
+                    <HomeProductList ref={(view)=>{
+                        listObjet = view;
+                        HomeProductList.loadingDidCreate(view)
+                    }}
+
+                      headRefreshDone={this.headRefreshDon}
+                    >
+                    </HomeProductList>
+
+
+
+
+                    </PTRControl>
                 </View>
 
             )
@@ -104,6 +135,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop:STATUSBAR_HEIGHT,
+    },
+    scroll:{
+      width:Dimen.window.width,
     },
   titleBgView:{
       backgroundColor:'white',

@@ -36,12 +36,47 @@ class ProductCell extends Component{
     }
 }
 
+let productListObject = null;
 export class HomeProductList extends Component<Props>{
     constructor(props){
         super(props);
         this.state = {
             sections:[]
         }
+        this.getData = this.getData.bind(this);
+    }
+
+    //给外部调用
+    static loadingDidCreate(ref){
+
+        productListObject = ref;
+    }
+
+    getData(){
+        console.log('log Test...')
+        let params = {
+        }
+        GET(HttpConfig.kHomeGetProducts,params,(response) => {
+            console.log(response);
+            if (response.code === 0){
+                // console.log(response);
+                let tempArr = response.data.Category.map((item,index) =>{
+                    let tempData = {};
+                    tempData.title = item.title;
+                    tempData.data = item.items;
+                    return tempData;
+                })
+                console.log(tempArr)
+                //更新界面
+                this.setState({
+                    sections:tempArr
+                })
+                this.props.headRefreshDone();
+            }
+        },(error)=>{
+            console.log('Request- failture'+error)
+            this.props.headRefreshDone();
+        })
     }
 
     _renderItem = ({item}) => (
@@ -61,26 +96,8 @@ export class HomeProductList extends Component<Props>{
     }
 
     componentDidMount(): void {
-        console.log('componentDidMount----')
-        let params = {
-        }
-        GET(HttpConfig.kHomeGetProducts,params,(response) => {
-            console.log(response);
-            if (response.code === 0){
-                // console.log(response);
-              let tempArr = response.data.Category.map((item,index) =>{
-                  let tempData = {};
-                  tempData.title = item.title;
-                  tempData.data = item.items;
-                  return tempData;
-              })
-                console.log(tempArr)
-                //更新界面
-                this.setState({
-                    sections:tempArr
-                })
-            }
-        })
+        console.log('componentDidMount2----')
+
     }
 
 }
