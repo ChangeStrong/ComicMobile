@@ -104,6 +104,7 @@ export class HomeView extends Component{
                     }}
 
                       headRefreshDone={this.headRefreshDon}
+                                     {...this.props}
                     >
                     </HomeProductList>
 

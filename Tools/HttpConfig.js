@@ -7,4 +7,5 @@ export  const  kProductDetail = "product/detail.do"
 export  const  kProductChapterList = "product/chapter/list.do"
 export  const  kProductChapterEpisodeList = "product/chapter/episode/list.do"
 export  const  kProductGetChapter ="product/getChapter.do"
+export  const  kProductList ="product/list.do"
 export const URL_main = URL_Product

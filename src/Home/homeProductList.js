@@ -8,9 +8,8 @@ let scale = Dimen.scaleW;
 import {StyleSheet,
     Text,
     View,
-    Button,
     Image,
-    Alert,
+    Alert,TouchableOpacity,
     SectionList} from 'react-native'
 
 class ProductCell extends Component{
@@ -48,7 +47,6 @@ export class HomeProductList extends Component<Props>{
 
     //给外部调用
     static loadingDidCreate(ref){
-
         productListObject = ref;
     }
 
@@ -64,6 +62,7 @@ export class HomeProductList extends Component<Props>{
                     let tempData = {};
                     tempData.title = item.title;
                     tempData.data = item.items;
+                    tempData.typeid =  item.type;
                     return tempData;
                 })
                 console.log(tempArr)
@@ -78,18 +77,32 @@ export class HomeProductList extends Component<Props>{
             this.props.headRefreshDone();
         })
     }
-
     _renderItem = ({item}) => (
         <ProductCell
             itemModel = {item}
         />
     )
+    _clickSectionTitle(section){
+        console.log(section);
+        //跳转作品详情页
+        this.props.navigation.navigate('ProductListVC',{section:section})
+
+    }
     render() {
         return ( <View style={styles.container}>
             <SectionList  contentContainerStyle={styles.listViewSytle}
                 sections={this.state.sections}
                 renderItem={this._renderItem}
-                renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+                renderSectionHeader={({section}) => (
+                    <View style={styles.sectionHeader}>
+                    <Text style={styles.sectionText}>
+                    {section.title}</Text>
+                        <TouchableOpacity onPress={()=>{this._clickSectionTitle(section)}}>
+                        <Text>查看更多</Text>
+                       </TouchableOpacity>
+                    </View>
+                )
+                }
                 keyExtractor={(item, index) => index}
             />
         </View>);
@@ -97,7 +110,6 @@ export class HomeProductList extends Component<Props>{
 
     componentDidMount(): void {
         console.log('componentDidMount2----')
-
     }
 
 }
@@ -107,20 +119,26 @@ const styles = StyleSheet.create({
         flex:1,
         paddingTop:22
     },
+    sectionHeader:{
+        paddingTop: 2,
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 2,
+        display:'flex',
+        flexDirection:'row',
+        justifyContent: 'space-between',
+        alignItems:'center',
+        width: Dimen.window.width,
+        backgroundColor: 'rgba(247,247,247,1.0)',
+    },
     listViewSytle:{
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'flex-start',
     },
-    sectionHeader: {
-        paddingTop: 2,
-        paddingLeft: 10,
-        paddingRight: 10,
-        paddingBottom: 2,
+    sectionText: {
         fontSize: 14,
         fontWeight: 'bold',
-        width: Dimen.window.width,
-        backgroundColor: 'rgba(247,247,247,1.0)',
     },
 
     cellContainer: {
