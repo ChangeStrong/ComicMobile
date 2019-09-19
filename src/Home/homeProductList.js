@@ -20,6 +20,7 @@ class ProductCell extends Component{
         var theModel = this.props.itemModel
         return (
             <View style={styles.cellContainer}>
+                <TouchableOpacity onPress={() =>this.props.onPressItem(theModel)}>
                 <Image
                     resizeMode={'cover'}
                     source={{uri: theModel.thumUrl}}
@@ -30,6 +31,7 @@ class ProductCell extends Component{
                     <Text style={{padding:5.0}}>{theModel.name}</Text>
                     <Text style={styles.cellTitleItem}>{theModel.desciption}</Text>
                 </View>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -80,6 +82,7 @@ export class HomeProductList extends Component<Props>{
     _renderItem = ({item}) => (
         <ProductCell
             itemModel = {item}
+            onPressItem={this.props.onPressItem}
         />
     )
     _clickSectionTitle(section){

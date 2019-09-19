@@ -16,12 +16,15 @@ import {StyleSheet,
     Alert,ScrollView,
 TouchableOpacity} from 'react-native'
 import {NavigationActions} from 'react-navigation'
+import ProductList from './ProductDetail/ProductList';
 
 var viewTypes = {
     home:0,
-    productDetail:1,
+    productGirle:1,
+    productYouth:2,
 }
 var listObjet = null;
+let  titles = ['全部','少年','少女'];
 export class HomeView extends Component{
     static navigationOptions = {
         title:'主页'
@@ -43,6 +46,25 @@ export class HomeView extends Component{
         this.setState({
             currentTitleIndex:index
         })
+        if (index == 0){
+            this.setState({
+                currentViewType:viewTypes.home,
+            })
+        }else {
+            let section = {title:titles[index],typeid:index}
+            this.props.navigation.setParams({section:section});
+            if (index == 1){
+                this.setState({
+                    currentViewType:viewTypes.productYouth,
+                })
+            }else {
+                this.setState({
+                    currentViewType:viewTypes.productGirle,
+                })
+            }
+
+        }
+
     }
 
     _onPressBannerItem(item){
@@ -60,9 +82,9 @@ export class HomeView extends Component{
     }
 
     render(){
-       console.log("home render function.");
+       // console.log("home render function.");
        //标题
-       let  titles = ['全部','少女','少年'];
+
        let titlesViews = (
            titles.map((item,index)=>{
                return (
@@ -105,6 +127,7 @@ export class HomeView extends Component{
 
                       headRefreshDone={this.headRefreshDon}
                                      {...this.props}
+                                     onPressItem={this._onPressBannerItem}
                     >
                     </HomeProductList>
 
@@ -115,14 +138,30 @@ export class HomeView extends Component{
                 </View>
 
             )
-        }else if (this.state.currentViewType === viewTypes.productDetail){
+        }else if (this.state.currentViewType === viewTypes.productYouth){
           return (
-              <ProductDetail>
+              <View style={styles.container}>
+                  <View style={styles.titleBgView}>
+                      {titlesViews}
+                  </View>
+              <ProductList {...this.props}>
 
-             </ProductDetail>
+              </ProductList>
+              </View>
           )
         }else {
-            return (<Text> No this page</Text>);
+            return (
+
+                <View style={{flex: 1}}>
+                    <Text></Text>
+                    <View style={styles.titleBgView}>
+                    {titlesViews}
+                </View>
+                    <ProductList {...this.props}>
+                    </ProductList>
+
+                </View>
+            )
         }
 
 

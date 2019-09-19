@@ -56,7 +56,8 @@ class ProductCell extends Component{
     render() {
         var theModel = this.props.itemModel
         return (
-            <View style={styles.cellContainer}>
+            <View style={{flex:1}}>
+                <TouchableOpacity style={styles.cellContainer} style={styles.cellContainer} onPress={() =>this.props.onPressItem(theModel)}>
                 <Image
                     resizeMode={'cover'}
                     source={{uri: theModel.thumUrl}}
@@ -67,6 +68,7 @@ class ProductCell extends Component{
                     <Text style={{padding:5.0}}>{theModel.name}</Text>
                     <Text style={styles.cellTitleItem}>{theModel.desciption}</Text>
                 </View>
+                </TouchableOpacity>
             </View>
         )
     }
@@ -81,6 +83,9 @@ export default class ProductList extends Component{
         super(props);
         const {navigation} = this.props;
         const section = navigation.getParam('section',{});
+        // let {item} = this.props.navigation.state.params;
+        console.log(section);
+
         this.state = {
             list:[],
             section:section,
@@ -89,19 +94,32 @@ export default class ProductList extends Component{
             showFoot:0, // 控制foot， 0：隐藏footer  1：已加载完成,没有更多数据   2 ：显示加载中
         }
         this.getData = this.getData.bind(this);
+        this._onPressBannerItem = this._onPressBannerItem.bind(this);
+    }
+
+    _onPressBannerItem(item){
+        console.log(item);
+        console.log(item.id);
+        // this.setState({
+        //     currentViewType: viewTypes.productDetail,
+        // })
+        //跳转作品详情页
+        this.props.navigation.navigate('HomeProductDetailVC',{productId:item.id})
     }
 
     _renderItem = ({item}) => (
         <ProductCell
             itemModel = {item}
+            onPressItem={this._onPressBannerItem}
         />
     )
 
     getData(isHeadFresh){
+        console.log('type='+this.state.section.typeid);
         let params = {
             type:this.state.section.typeid,
             pageNumber:this.state.pageNumber,
-            pageSize:2,
+            pageSize:5,
         }
         console.log('开始请求')
         POST(HttpConfig.kProductList,params,(response) => {
@@ -130,7 +148,7 @@ export default class ProductList extends Component{
                 //关闭下拉刷新
                 PTRControl.headerRefreshDone();
             }else {
-                // PTRControl.footerInfiniteDone()
+                PTRControl.footerInfiniteDone()
             }
 
         },(error)=>{
@@ -139,41 +157,41 @@ export default class ProductList extends Component{
                 //关闭下拉刷新
                 PTRControl.headerRefreshDone();
             }else {
-                // PTRControl.footerInfiniteDone()
+                PTRControl.footerInfiniteDone()
             }
 
         })
 
     }
 
-    _renderFooter(){
-        if (this.state.showFoot === 1) {
-            return (
-                <View style={{height:30,alignItems:'center',justifyContent:'flex-start',}}>
-                    <Text style={{color:'#999999',fontSize:14,marginTop:5,marginBottom:5,}}>
-                        没有更多数据了
-                    </Text>
-                </View>
-            );
-        } else if(this.state.showFoot === 2) {
-            return (
-                <View style={styles.footer}>
-                    <ActivityIndicator />
-                    <Text>正在加载更多数据...</Text>
-                </View>
-            );
-        } else if(this.state.showFoot === 0){
-            return (
-                <View style={styles.footer}>
-                    <Text></Text>
-                </View>
-            );
-        }
-    }
-
-    _separator(){
-        return <View style={{height:1,backgroundColor:'#999999'}}/>;
-    }
+    // _renderFooter(){
+    //     if (this.state.showFoot === 1) {
+    //         return (
+    //             <View style={{height:30,alignItems:'center',justifyContent:'flex-start',}}>
+    //                 <Text style={{color:'#999999',fontSize:14,marginTop:5,marginBottom:5,}}>
+    //                     没有更多数据了
+    //                 </Text>
+    //             </View>
+    //         );
+    //     } else if(this.state.showFoot === 2) {
+    //         return (
+    //             <View style={styles.footer}>
+    //                 <ActivityIndicator />
+    //                 <Text>正在加载更多数据...</Text>
+    //             </View>
+    //         );
+    //     } else if(this.state.showFoot === 0){
+    //         return (
+    //             <View style={styles.footer}>
+    //                 <Text></Text>
+    //             </View>
+    //         );
+    //     }
+    // }
+    //
+    // _separator(){
+    //     return <View style={{height:1,backgroundColor:'#999999'}}/>;
+    // }
 
     render() {
         return ( <View style={styles.container}>
@@ -187,24 +205,24 @@ export default class ProductList extends Component{
                     this.getData(true);
                 }}
                 // enableFooterInfinite={true}
-                // setFooterHeight={60}
-                // onEndReachedThreshold={10}
-                // renderFooterInfinite={
-                //     (gestureStatus, offset) => <FooterInfinite gestureStatus={gestureStatus} offset={offset}/>
-                // }
-                // onFooterInfiniting={()=>{
-                //     console.log('scroolview 的上拉刷新...');
-                //     // if (this.state.pageNumber >= this.state.paginationVo.totalPage){
-                //     //     Alert.alert('没有更多','敬请期待',
-                //     //         [
-                //     //             {text:'我知道了',onPress:()=>{}}
-                //     //         ])
-                //     //     PTRControl.footerInfiniteDone()
-                //     //     return;
-                //     // }
-                //     // this.state.pageNumber = this.state.pageNumber +1;
-                //     // this.getData(false);
-                // }}
+                //                 // setFooterHeight={60}
+                //                 // onEndReachedThreshold={10}
+                //                 // renderFooterInfinite={
+                //                 //     (gestureStatus, offset) => <FooterInfinite gestureStatus={gestureStatus} offset={offset}/>
+                //                 // }
+                onFooterInfiniting={()=>{
+                    console.log('scroolview 的上拉刷新...');
+                    if (this.state.pageNumber >= this.state.paginationVo.totalPage){
+                        Alert.alert('没有更多','敬请期待',
+                            [
+                                {text:'我知道了',onPress:()=>{}}
+                            ])
+                        PTRControl.footerInfiniteDone()
+                        return;
+                    }
+                    this.state.pageNumber = this.state.pageNumber +1;
+                    this.getData(false);
+                }}
 
             >
                <FlatList
@@ -212,10 +230,10 @@ export default class ProductList extends Component{
                    data={this.state.list}
                    renderItem={this._renderItem}
                    keyExtractor={(item, index) => index.toString()}
-                   ListFooterComponent={this._renderFooter.bind(this)}
-                   onEndReached={this._onEndReached.bind(this)}
-                   onEndReachedThreshold={1}
-                   ItemSeparatorComponent={this._separator}
+                   // ListFooterComponent={this._renderFooter.bind(this)}
+                   // onEndReached={this._onEndReached.bind(this)}
+                   // onEndReachedThreshold={1}
+                   // ItemSeparatorComponent={this._separator}
                >
                </FlatList>
             </PTRControl>
@@ -247,16 +265,16 @@ const styles = StyleSheet.create({
     container:{
         flex:1,
         paddingTop:5,
-        paddingBottom: 60,
+        // paddingBottom: 60,
     },
     ptctr:{
       flex:1,
         position:'relative',
-        backgroundColor:'red',
+        // backgroundColor:'red',
     },
     flatList:{
         flex:1,
-        backgroundColor: 'yellow',
+        // backgroundColor: 'yellow',
     },
     cellContainer: {
         //flex:1, // 空间平均分布
