@@ -6,6 +6,7 @@ import {StyleSheet,
     Alert,ScrollView} from 'react-native'
 import React, {Component} from 'react'
 import {NavigationActions} from 'react-navigation'
+import Dimen from  './../../Tools/dimission'
 export default class Mine extends Component{
 static navigationOptions = {
     title:'我的'
@@ -13,7 +14,8 @@ static navigationOptions = {
     render(){
         return (
             <View style={styles.container}>
-                <Text>this is my page</Text>
+                <Image style={{height:200, width: Dimen.window.width,resizeMode: 'contain'}}
+                       source={require('./../../images/logo.png')} />
             </View>
         );
     }
@@ -22,6 +24,8 @@ static navigationOptions = {
 
 let styles = StyleSheet.create({
     container:{
-        flex:1
+        flex:1,
+        justifyContent:'center',
+        alignItems: 'center',
     }
 })
