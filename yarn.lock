@@ -2810,9 +2810,9 @@ getpass@^0.1.1:
     assert-plus "^1.0.0"
 
 glob-parent@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.npm.taobao.org/glob-parent/download/glob-parent-5.0.0.tgz#1dc99f0f39b006d3e92c2c284068382f0c20e954"
-  integrity sha1-HcmfDzmwBtPpLCwoQGg4Lwwg6VQ=
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.2.tgz#869832c58034fe68a4093c17dc15e8340d8401c4"
+  integrity sha512-AOIgSQCepiJYwP3ARnGx+5VnTu2HBYdzbGP45eLw1vr3zB3vZLeyed1sC9hnbcOc9/SrMyM5RPQrkGz4aS9Zow==
   dependencies:
     is-glob "^4.0.1"
 
@@ -3206,7 +3206,7 @@ is-extendable@^1.0.1:
 
 is-extglob@^2.1.1:
   version "2.1.1"
-  resolved "https://registry.npm.taobao.org/is-extglob/download/is-extglob-2.1.1.tgz#a88c02535791f02ed37c76a1b9ea9773c833f8c2"
+  resolved "https://registry.yarnpkg.com/is-extglob/-/is-extglob-2.1.1.tgz#a88c02535791f02ed37c76a1b9ea9773c833f8c2"
   integrity sha1-qIwCU1eR8C7TfHahueqXc8gz+MI=
 
 is-fullwidth-code-point@^1.0.0:
@@ -5149,10 +5149,10 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.3"
 
-prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@latest:
   version "15.7.2"
-  resolved "https://registry.npm.taobao.org/prop-types/download/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
-  integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
+  integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
   dependencies:
     loose-envify "^1.4.0"
     object-assign "^4.1.1"
@@ -5252,6 +5252,13 @@ react-native-gesture-handler@^1.4.1:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.4"
     prop-types "^15.7.2"
+
+react-native-ptr-control@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-ptr-control/-/react-native-ptr-control-1.1.4.tgz#bf59a6d0c542177fc8bc55e67b385c1fac15bf72"
+  integrity sha512-QiNkjfxbBR51xXEInVkFzav2oRZxxLqTGZIiTJouy+lGbqt9bFrNuZ+V+mPG5bTog2nJEKa2KuRwUngOzuNnew==
+  dependencies:
+    prop-types "^15.5.7"
 
 react-native-reanimated@^1.2.0:
   version "1.2.0"
